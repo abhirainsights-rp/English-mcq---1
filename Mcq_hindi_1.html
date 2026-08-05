@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abhira Insights - Hindi Vyakaran MCQ</title>
+    <style>
+        /* Basic Page Styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .quiz-container {
+            background: #ffffff;
+            max-width: 800px;
+            width: 100%;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            border-top: 5px solid #f39c12;
+        }
+
+        /* Header and Logo Area */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        /* The Logo (Replicating image_0.png in a stylized form) */
+        .logo-placeholder {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 15px auto;
+            background-image: url('image_0.png'); /* Using the provided logo */
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        .brand-title {
+            font-size: 48px;
+            font-weight: 900;
+            margin: 0;
+        }
+
+        /* Attractive gradient color for 'Abhira' */
+        .abhira {
+            background: linear-gradient(90deg, #2c3e50, #f39c12, #e67e22);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+        }
+
+        .insights {
+            font-size: 18px;
+            color: #7f8c8d;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-top: 5px;
+            font-weight: bold;
+        }
+
+        /* Sub-header for Quiz Info */
+        .quiz-info {
+            text-align: center;
+            background-color: #ecf0f1;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: #34495e;
+        }
+
+        /* Question Card Styling */
+        .question-card {
+            background-color: #fafafa;
+            border: 1px solid #e0e0e0;
+            padding: 20px;
+            margin-bottom: 25px;
+            border-radius: 10px;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.03);
+        }
+
+        .question-number {
+            font-size: 22px;
+            font-weight: bold;
+            color: #e67e22;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .question-text {
+            font-size: 20px;
+            line-height: 1.5;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        /* Options Styling */
+        .options-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .option-item {
+            background-color: #ffffff;
+            border: 1px solid #bdc3c7;
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 18px;
+            color: #34495e;
+            position: relative;
+        }
+
+        .option-item:hover {
+            background-color: #fff8e1;
+            border-color: #f39c12;
+            transform: translateX(5px);
+        }
+
+        /* Correct Answer Styling */
+        .correct-answer {
+            background-color: #27ae60; /* Green for correct */
+            color: white;
+            border-color: #27ae60;
+            font-weight: bold;
+        }
+        
+        .correct-answer::after {
+            content: '✓ सही जवाब';
+            position: absolute;
+            right: 20px;
+            color: #c8e6c9;
+            font-size: 14px;
+        }
+        
+        /* Decorative Footer */
+        .footer {
+            text-align: center;
+            font-size: 14px;
+            color: #95a5a6;
+            margin-top: 40px;
+            border-top: 1px solid #e0e0e0;
+            padding-top: 20px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .brand-title { font-size: 36px; }
+            .quiz-container { padding: 20px; }
+            .question-text { font-size: 18px; }
+            .option-item { font-size: 16px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="quiz-container">
+    <div class="header">
+        <div class="logo-placeholder" title="Abhira Insights Logo"></div>
+        <h1 class="brand-title"><span class="abhira">Abhira</span> <span class="insights">Insights</span></h1>
+    </div>
+
+    <div class="quiz-info">
+        बिहार बोर्ड कक्षा 12वीं हिंदी व्याकरण - विशेष अभ्यास सेट (Bihar Board Class 12 Hindi Vyakaran MCQ)
+    </div>
+
+    <!-- Question 1 -->
+    <div class="question-card">
+        <span class="question-number">प्रश्न 1.</span>
+        <p class="question-text">'आगमन' शब्द का सही विपरीतार्थक (विलोम) शब्द क्या है?</p>
+        <ul class="options-list">
+            <li class="option-item">A. गमन</li>
+            <li class="option-item">B. प्रस्थान</li>
+            <li class="option-item correct-answer">C. निर्गमन</li> <!-- Correct Answer -->
+            <li class="option-item">D. निष्कासन</li>
+        </ul>
+    </div>
+
+    <!-- Question 2 -->
+    <div class="question-card">
+        <span class="question-number">प्रश्न 2.</span>
+        <p class="question-text">जिसके आने की तिथि मालूम न हो, उसे क्या कहते हैं?</p>
+        <ul class="options-list">
+            <li class="option-item">A. अविश्वसनीय</li>
+            <li class="option-item correct-answer">B. अतिथि</li> <!-- Correct Answer -->
+            <li class="option-item">C. अज्ञात</li>
+            <li class="option-item">D. असामयिक</li>
+        </ul>
+    </div>
+
+    <!-- Question 3 -->
+    <div class="question-card">
+        <span class="question-number">प्रश्न 3.</span>
+        <p class="question-text">'अक्ल का अंधा' मुहावरे का अर्थ है:</p>
+        <ul class="options-list">
+            <li class="option-item">A. दृष्टिहीन होना</li>
+            <li class="option-item">B. बहुत चालाक होना</li>
+            <li class="option-item correct-answer">C. मूर्ख होना</li> <!-- Correct Answer -->
+            <li class="option-item">D. समझदार होना</li>
+        </ul>
+    </div>
+    
+    <!-- Question 4 -->
+    <div class="question-card">
+        <span class="question-number">प्रश्न 4.</span>
+        <p class="question-text">'यथाशक्ति' शब्द में कौन सा समास है?</p>
+        <ul class="options-list">
+            <li class="option-item correct-answer">A. अव्ययीभाव समास</li> <!-- Correct Answer -->
+            <li class="option-item">B. तत्पुरुष समास</li>
+            <li class="option-item">C. कर्मधारय समास</li>
+            <li class="option-item">D. द्वंद्व समास</li>
+        </ul>
+    </div>
+
+    <div class="footer">
+        © 2023 Abhira Insights. All Rights Reserved. | designed for success.
+    </div>
+
+</div>
+
+</body>
+</html>
+```http://googleusercontent.com/generated_image_content/0
+
