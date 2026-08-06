@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abhira Insight - Indian Civilization and Culture MCQ Challenge</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --accent: #ec4899;
+            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #311042 100%);
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --success: #10b981;
+            --error: #ef4444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            color: #f8fafc;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+            animation: fadeInDown 0.8s ease;
+        }
+
+        .brand-badge {
+            background: linear-gradient(135deg, #f43f5e, #8b5cf6);
+            color: white;
+            padding: 10px 28px;
+            border-radius: 30px;
+            font-size: 1.5rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            box-shadow: 0 8px 25px rgba(244, 63, 94, 0.4);
+            display: inline-block;
+            margin-bottom: 12px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            color: #f1f5f9;
+            font-weight: 800;
+            margin-bottom: 5px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        p.subtitle {
+            color: #cbd5e1;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 750px;
+            background: var(--card-bg);
+            color: var(--text-main);
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.8s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Start Screen */
+        #start-screen {
+            text-align: center;
+            padding: 20px 10px;
+        }
+
+        #start-screen h2 {
+            font-size: 1.6rem;
+            color: var(--primary-dark);
+            margin-bottom: 15px;
+            font-weight: 800;
+        }
+
+        #start-screen p {
+            color: var(--text-muted);
+            margin-bottom: 25px;
+            line-height: 1.6;
+            font-weight: 500;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            color: white;
+            border: none;
+            padding: 14px 35px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.6);
+        }
+
+        /* Quiz Screen */
+        #quiz-screen {
+            display: none;
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 15px;
+        }
+
+        .progress-info {
+            font-weight: 700;
+            color: var(--primary-dark);
+            font-size: 1rem;
+        }
+
+        .timer {
+            background: #eef2ff;
+            color: var(--primary-dark);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border: 1px solid #c7d2fe;
+        }
+
+        .question-box {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .option-btn {
+            background: #f8fafc;
+            border: 2px solid #cbd5e1;
+            border-radius: 12px;
+            padding: 14px 18px;
+            text-align: left;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-main);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            background: #eef2ff;
+            border-color: var(--primary);
+            color: var(--primary-dark);
+            transform: translateX(4px);
+        }
+
+        .option-btn.correct {
+            background: #d1fae5 !important;
+            border-color: var(--success) !important;
+            color: #065f46 !important;
+        }
+
+        .option-btn.incorrect {
+            background: #fee2e2 !important;
+            border-color: var(--error) !important;
+            color: #991b1b !important;
+        }
+
+        .quiz-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 2px solid #e2e8f0;
+            padding-top: 15px;
+        }
+
+        .score-tracker {
+            font-weight: 700;
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        #next-btn {
+            background: var(--primary-dark);
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: none;
+        }
+
+        #next-btn:hover {
+            background: var(--primary);
+        }
+
+        /* Result Screen */
+        #result-screen {
+            display: none;
+            text-align: center;
+            padding: 20px 10px;
+        }
+
+        .trophy-icon {
+            font-size: 4rem;
+            margin-bottom: 15px;
+            animation: bounce 1s infinite alternate;
+        }
+
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-10px); }
+        }
+
+        #result-screen h2 {
+            font-size: 2rem;
+            color: var(--primary-dark);
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+
+        .score-card {
+            background: #f1f5f9;
+            border-radius: 16px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 2px dashed #94a3b8;
+        }
+
+        .score-card p {
+            font-size: 1.1rem;
+            color: var(--text-main);
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .score-card .highlight {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--primary-dark);
+        }
+
+        .remarks {
+            font-size: 1rem;
+            color: var(--text-muted);
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="brand-badge">Abhira Insight</div>
+        <h1>Indian Civilization and Culture</h1>
+        <p class="subtitle">Bihar Board Class 12 English Prose - Ultimate MCQ Challenge (30 Questions)</p>
+    </header>
+
+    <div class="container">
+        <div id="start-screen">
+            <h2>Ready for the Challenge?</h2>
+            <p>Test your mastery of Mahatma Gandhi's iconic essay <strong>"Indian Civilization and Culture"</strong>. Answer 30 carefully crafted multiple-choice questions with instant feedback and a timer!</p>
+            <button class="btn" onclick="startQuiz()">Start Challenge 🚀</button>
+        </div>
+
+        <div id="quiz-screen">
+            <div class="quiz-header">
+                <span class="progress-info" id="progress-info">Question 1 of 30</span>
+                <div class="timer" id="timer">⏳ 30s</div>
+            </div>
+
+            <div class="question-box" id="question-text">Loading question...</div>
+
+            <div class="options-list" id="options-list">
+                </div>
+
+            <div class="quiz-footer">
+                <span class="score-tracker" id="score-tracker">Score: 0</span>
+                <button id="next-btn" onclick="nextQuestion()">Next Question ➡</button>
+            </div>
+        </div>
+
+        <div id="result-screen">
+            <div class="trophy-icon" id="trophy-icon">🏆</div>
+            <h2>Challenge Completed!</h2>
+            <p class="remarks" id="remarks">Amazing job!</p>
+            
+            <div class="score-card">
+                <p>Your Final Score</p>
+                <div class="highlight" id="final-score">0 / 30</div>
+                <p id="percentage-text" style="color: var(--text-muted); font-size: 0.95rem; margin-top: 5px;">Accuracy: 0%</p>
+            </div>
+
+            <button class="btn" onclick="restartQuiz()">Try Again 🔄</button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "Who is the author of 'Indian Civilization and Culture'?",
+                options: ["Dr. Zakir Hussain", "Mahatma Gandhi", "Martin Luther King Jr.", "Bertrand Russell"],
+                answer: 1
+            },
+            {
+                question: "Mahatma Gandhi was more a _____ than a politician.",
+                options: ["Social reformer", "Spiritual leader", "Philosopher", "Scientist"],
+                answer: 1
+            },
+            {
+                question: "When did Mahatma Gandhi die (assassinated)?",
+                options: ["1948", "1950", "1947", "1930"],
+                answer: 0
+            },
+            {
+                question: "Which of the following books is written by Mahatma Gandhi?",
+                options: ["Discovery of India", "My Experiments with Truth", "Hind Swaraj", "Both B and C"],
+                answer: 3
+            },
+            {
+                question: "According to Gandhi, the foundation of Indian civilization is:",
+                options: ["Materialism", "Moral being", "Machinery", "Western science"],
+                answer: 1
+            },
+            {
+                question: "Western civilization is characterized by:",
+                options: ["Worship of morality", "Worship of material", "Worship of spirituality", "Worship of nature"],
+                answer: 1
+            },
+            {
+                question: "What does Indian civilization teach us to do?",
+                options: ["To moralize", "To indulge in luxuries", "To run after western gadgets", "To fight with others"],
+                answer: 0
+            },
+            {
+                question: "The Gujarati equivalent for 'civilization' means:",
+                options: ["Good conduct", "Bad conduct", "Progress", "Wisdom"],
+                answer: 0
+            },
+            {
+                question: "What did Gandhi do from 1915 till 1948?",
+                options: ["Ruled India", "Completely dominated Indian politics", "Stayed in London", "Wrote novels"],
+                answer: 1
+            },
+            {
+                question: "Our ancestors enjoyed true _____ rule.",
+                options: ["Home", "Foreign", "King's", "Dictator's"],
+                answer: 0
+            },
+            {
+                question: "Why did our ancestors dissuade us from luxuries and pleasures?",
+                options: ["Because they were poor", "Because luxuries make us physically weak", "Because luxuries make us a slave to our senses", "Because they hated comfort"],
+                answer: 2
+            },
+            {
+                question: "According to Gandhi, mind is a:",
+                options: ["Calm river", "Restless bird", "Wise advisor", "Closed box"],
+                answer: 1
+            },
+            {
+                question: "The more the mind gets, the more it:",
+                options: ["Wants", "Satisfies", "Rejects", "Ignores"],
+                answer: 0
+            },
+            {
+                question: "Our ancestors held a _____ meeting of towns.",
+                options: ["Regular", "Grand", "No", "Secret"],
+                answer: 2
+            },
+            {
+                question: "People in ancient days satisfied themselves with:",
+                options: ["Big machines", "Small villages", "Real homelife", "Luxury cars"],
+                answer: 2
+            },
+            {
+                question: "In ancient days, the common people followed:",
+                options: ["Agriculture", "Business", "Industries", "Computers"],
+                answer: 0
+            },
+            {
+                question: "The common people lived independently and followed their:",
+                options: ["Foreign advice", "Sweet occupation", "Enemies", "Governors"],
+                answer: 1
+            },
+            {
+                question: "The Indian civilization remains:",
+                options: ["Immovable", "Ruined", "Changed", "Weakened"],
+                answer: 0
+            },
+            {
+                question: "What is Rome's fate in history according to the chapter?",
+                options: ["It survived till date", "It went the same way as Greece", "It became stronger", "It conquered the world"],
+                answer: 1
+            },
+            {
+                question: "What happened to the people of Rome or Greece?",
+                options: ["They learned Hindi", "They are still ruling", "They broke under the might of Rome", "Their great civilizations were broken or changed"],
+                answer: 3
+            },
+            {
+                question: "Europeans learn their lessons from the writings of the men of:",
+                options: ["India", "Greece or Rome", "China", "America"],
+                answer: 1
+            },
+            {
+                question: "The writer of 'Indian Civilization and Culture' considers Indian civilization as:",
+                options: ["Inferior", "The best", "Outdated", "Dangerous"],
+                answer: 1
+            },
+            {
+                question: "What does Gandhi say about India's glory?",
+                options: ["It can be equaled", "It remains unshakeable", "It is fading away", "It was destroyed by Greeks"],
+                answer: 1
+            },
+            {
+                question: "Civilization is that mode of conduct which points out to man:",
+                options: ["The path of duty", "The way to make money", "How to fight wars", "How to build big factories"],
+                answer: 0
+            },
+            {
+                question: "A man is not necessarily happy because he is:",
+                options: ["Poor", "Rich", "Healthy", "Honest"],
+                answer: 1
+            },
+            {
+                question: "Millions of Indians are happy because of:",
+                options: ["Big malls", "Real happiness of mind", "Western cars", "High-tech gadgets"],
+                answer: 1
+            },
+            {
+                question: "Our ancestors set a limit to our indulgences because:",
+                options: ["Happiness is largely a mental condition", "They did not have money", "They hated happiness", "They were afraid of kings"],
+                answer: 0
+            },
+            {
+                question: "What did India never do, according to Gandhi?",
+                options: ["Fight for freedom", "Embrace morality", "Lust after foreign things / encumber nations", "Trust its ancestors"],
+                answer: 2
+            },
+            {
+                question: "Who wrote 'My Experiments with Truth'?",
+                options: ["Jawaharlal Nehru", "Mahatma Gandhi", "Dr. Zakir Hussain", "B. R. Ambedkar"],
+                answer: 1
+            },
+            {
+                question: "Gandhiji dominated Indian politics during the period:",
+                options: ["1869-1948", "1915-1948", "1920-1950", "1905-1947"],
+                answer: 1
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let timer;
+        let timeLeft = 30;
+        let answered = false;
+
+        const startScreen = document.getElementById('start-screen');
+        const quizScreen = document.getElementById('quiz-screen');
+        const resultScreen = document.getElementById('result-screen');
+        const questionText = document.getElementById('question-text');
+        const optionsList = document.getElementById('options-list');
+        const progressInfo = document.getElementById('progress-info');
+        const scoreTracker = document.getElementById('score-tracker');
+        const nextBtn = document.getElementById('next-btn');
+        const timerDisplay = document.getElementById('timer');
+        const finalScore = document.getElementById('final-score');
+        const percentageText = document.getElementById('percentage-text');
+        const remarks = document.getElementById('remarks');
+
+        function startQuiz() {
+            startScreen.style.display = 'none';
+            quizScreen.style.display = 'block';
+            currentQuestionIndex = 0;
+            score = 0;
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            resetState();
+            const currentQ = questions[currentQuestionIndex];
+            progressInfo.innerText = `Question ${currentQuestionIndex + 1} of ${questions.length}`;
+            questionText.innerText = currentQ.question;
+            scoreTracker.innerText = `Score: ${score}`;
+
+            currentQ.options.forEach((option, index) => {
+                const btn = document.createElement('button');
+                btn.classList.add('option-btn');
+                btn.innerHTML = `<span>${option}</span> <span style="font-size: 1.1rem;"></span>`;
+                btn.onclick = () => selectOption(index, btn);
+                optionsList.appendChild(btn);
+            });
+
+            startTimer();
+        }
+
+        function resetState() {
+            clearInterval(timer);
+            timeLeft = 30;
+            timerDisplay.innerText = `⏳ ${timeLeft}s`;
+            answered = false;
+            nextBtn.style.display = 'none';
+            optionsList.innerHTML = '';
+        }
+
+        function startTimer() {
+            timer = setInterval(() => {
+                timeLeft--;
+                timerDisplay.innerText = `⏳ ${timeLeft}s`;
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    timeOutAnswer();
+                }
+            }, 1000);
+        }
+
+        function timeOutAnswer() {
+            if (answered) return;
+            answered = true;
+            clearInterval(timer);
+            const currentQ = questions[currentQuestionIndex];
+            const buttons = optionsList.getElementsByClassName('option-btn');
+            
+            buttons[currentQ.answer].classList.add('correct');
+            buttons[currentQ.answer].querySelector('span:last-child').innerText = '✔';
+            
+            disableAllOptions();
+            showNextButton();
+        }
+
+        function selectOption(selectedIndex, btn) {
+            if (answered) return;
+            answered = true;
+            clearInterval(timer);
+
+            const currentQ = questions[currentQuestionIndex];
+            const buttons = optionsList.getElementsByClassName('option-btn');
+
+            if (selectedIndex === currentQ.answer) {
+                btn.classList.add('correct');
+                btn.querySelector('span:last-child').innerText = '✔';
+                score++;
+                scoreTracker.innerText = `Score: ${score}`;
+            } else {
+                btn.classList.add('incorrect');
+                btn.querySelector('span:last-child').innerText = '❌';
+                buttons[currentQ.answer].classList.add('correct');
+                buttons[currentQ.answer].querySelector('span:last-child').innerText = '✔';
+            }
+
+            disableAllOptions();
+            showNextButton();
+        }
+
+        function disableAllOptions() {
+            const buttons = optionsList.getElementsByClassName('option-btn');
+            Array.from(buttons).forEach(b => b.disabled = true);
+        }
+
+        function showNextButton() {
+            if (currentQuestionIndex < questions.length - 1) {
+                nextBtn.innerText = "Next Question ➡";
+            } else {
+                nextBtn.innerText = "View Results 🏆";
+            }
+            nextBtn.style.display = 'block';
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            quizScreen.style.display = 'none';
+            resultScreen.style.display = 'block';
+
+            finalScore.innerText = `${score} / ${questions.length}`;
+            const percentage = Math.round((score / questions.length) * 100);
+            percentageText.innerText = `Accuracy: ${percentage}%`;
+
+            if (percentage === 100) {
+                remarks.innerText = "🌟 Extraordinary! You are a true scholar of Indian Civilization and Culture!";
+            } else if (percentage >= 70) {
+                remarks.innerText = "👏 Great job! You have a solid grasp of Mahatma Gandhi's essay.";
+            } else if (percentage >= 40) {
+                remarks.innerText = "👍 Good effort! A quick review of the chapter will make you even better.";
+            } else {
+                remarks.innerText = "💡 Keep practicing! Read the chapter thoroughly and try again.";
+            }
+        }
+
+        function restartQuiz() {
+            resultScreen.style.display = 'none';
+            startScreen.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
