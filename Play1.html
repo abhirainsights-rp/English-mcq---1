@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+<title>Abhira Insights — Educational Kids Game</title>
+<style>
+  :root{
+    --brand-purple:#8E24AA;
+    --brand-pink:#E91E63;
+    --card-bg:#FFFFFF;
+    --text-color:#2C3E50;
+    --success:#2ECC71;
+    --error:#E74C3C;
+    --accent-yellow:#F1C40F;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;padding:0;height:100%;}
+  body{
+    font-family:'Baloo 2','Segoe UI',system-ui,sans-serif;
+    background: linear-gradient(135deg, #A8E6CF 0%, #DCEDC1 30%, #FFD3B6 70%, #FFAAA5 100%);
+    color:var(--text-color);
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:12px;
+  }
+  #app{
+    width:100%;
+    max-width:500px;
+    background:rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius:32px;
+    box-shadow:0 16px 40px rgba(0,0,0,0.15);
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    border:6px solid #FFFFFF;
+    min-height:620px;
+    position:relative;
+  }
+
+  /* BIG BOLD BRAND HEADER */
+  .brand-header{
+    background: linear-gradient(135deg, #7B1FA2 0%, #E91E63 100%);
+    color:#FFFFFF;
+    padding:24px 16px 20px;
+    text-align:center;
+    border-bottom-left-radius:28px;
+    border-bottom-right-radius:28px;
+    box-shadow:0 8px 20px rgba(123, 31, 162, 0.3);
+    position:relative;
+  }
+  .brand-title{
+    font-size:38px;
+    font-weight:900;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    margin:0;
+    line-height:1.05;
+    text-shadow: 3px 4px 0px rgba(0,0,0,0.25);
+    color: #FFF;
+  }
+  .brand-tagline{
+    font-size:16px;
+    font-weight:700;
+    margin-top:6px;
+    color:#FFE082;
+    text-shadow:1px 1px 2px rgba(0,0,0,0.2);
+  }
+
+  /* SCREENS */
+  .screen{display:none; padding:18px; flex:1; flex-direction:column;}
+  .screen.active{display:flex; animation:slide-up .35s cubic-bezier(0.175, 0.885, 0.32, 1.275);}
+  @keyframes slide-up{from{opacity:0; transform:translateY(16px);} to{opacity:1; transform:translateY(0);}}
+
+  /* SUBJECT GRID MENU */
+  .section-title{
+    font-size:18px;
+    font-weight:800;
+    text-align:center;
+    margin:10px 0 16px;
+    color:#4A148C;
+  }
+  .subject-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    flex:1;
+  }
+  .subject-card{
+    background:#FFFFFF;
+    border-radius:22px;
+    padding:16px 12px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    cursor:pointer;
+    box-shadow:0 8px 0 rgba(0,0,0,0.06), 0 2px 10px rgba(0,0,0,0.04);
+    border:3.5px solid transparent;
+    transition:all 0.15s ease;
+  }
+  .subject-card:active{transform:scale(0.95) translateY(4px); box-shadow:0 2px 0 rgba(0,0,0,0.06);}
+  .subject-card .icon{font-size:42px; margin-bottom:6px; filter:drop-shadow(0 4px 6px rgba(0,0,0,0.1));}
+  .subject-card h3{margin:0; font-size:18px; font-weight:800;}
+  .subject-card p{margin:4px 0 0; font-size:12px; color:#666; font-weight:600;}
+
+  /* SUBJECT THEMES */
+  .sub-english{border-color:#4FC3F7; background:#E1F5FE;}
+  .sub-english h3{color:#0277BD;}
+  .sub-hindi{border-color:#FF8A65; background:#FBE9E7;}
+  .sub-hindi h3{color:#D84315;}
+  .sub-maths{border-color:#AED581; background:#F1F8E9;}
+  .sub-maths h3{color:#33691E;}
+  .sub-science{border-color:#BA68C8; background:#F3E5F5;}
+  .sub-science h3{color:#6A1B9A;}
+  .sub-arts{border-color:#FFD54F; background:#FFFDE7;}
+  .sub-arts h3{color:#F57F17;}
+
+  /* GAMEPLAY INTERFACE */
+  .game-top-bar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:14px;
+  }
+  .btn-back{
+    background:#FFFFFF;
+    border:2.5px solid #DDD;
+    width:42px; height:42px;
+    border-radius:14px;
+    font-size:20px;
+    font-weight:bold;
+    cursor:pointer;
+    box-shadow:0 4px 0 #CCC;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .btn-back:active{transform:translateY(2px); box-shadow:0 2px 0 #CCC;}
+  
+  .badge-container{
+    display:flex;
+    gap:8px;
+  }
+  .info-pill{
+    background:#FFF8E1;
+    border:2.5px solid #FFD54F;
+    padding:6px 14px;
+    border-radius:20px;
+    font-weight:800;
+    font-size:14px;
+    color:#F57F17;
+  }
+
+  .q-box{
+    background:#FFFFFF;
+    border-radius:24px;
+    padding:24px 18px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.07);
+    text-align:center;
+    border:3px solid #F0F0F0;
+    margin-bottom:18px;
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+  }
+  .q-emoji{font-size:56px; margin-bottom:10px; filter:drop-shadow(0 6px 8px rgba(0,0,0,0.12));}
+  .q-title{font-size:22px; font-weight:800; color:#2C3E50; line-height:1.3;}
+
+  .options-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    width:100%;
+  }
+  .opt-btn{
+    background:#FFFFFF;
+    border:3.5px solid #E0E0E0;
+    border-radius:18px;
+    padding:16px 10px;
+    font-size:18px;
+    font-weight:800;
+    color:#333;
+    cursor:pointer;
+    box-shadow:0 5px 0 rgba(0,0,0,0.06);
+    transition:transform 0.1s ease, background-color 0.2s, border-color 0.2s;
+    min-height:60px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .opt-btn:active{transform:scale(0.96);}
+  .opt-btn.correct{
+    background:#E8F5E9 !important;
+    border-color:#4CAF50 !important;
+    color:#2E7D32 !important;
+  }
+  .opt-btn.wrong{
+    background:#FFEBEE !important;
+    border-color:#EF5350 !important;
+    color:#C62828 !important;
+  }
+  .opt-btn.disabled{pointer-events:none; opacity:0.6;}
+
+  .feedback-text{
+    text-align:center;
+    font-weight:800;
+    font-size:17px;
+    min-height:28px;
+    margin-top:12px;
+  }
+  .feedback-text.good{color:#2E7D32;}
+  .feedback-text.bad{color:#C62828;}
+
+  .btn-next{
+    width:100%;
+    margin-top:12px;
+    padding:16px;
+    border:none;
+    border-radius:20px;
+    background:linear-gradient(135deg, #8E24AA, #D81B60);
+    color:#FFF;
+    font-size:18px;
+    font-weight:800;
+    box-shadow:0 6px 0 #5E1274;
+    cursor:pointer;
+    display:none;
+  }
+  .btn-next:active{transform:translateY(3px); box-shadow:0 3px 0 #5E1274;}
+
+  /* RESULT SCREEN */
+  .result-card{
+    background:#FFFFFF;
+    border-radius:28px;
+    padding:30px 20px;
+    text-align:center;
+    box-shadow:0 12px 30px rgba(0,0,0,0.08);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    flex:1;
+  }
+  .result-icon{font-size:72px; margin-bottom:12px; animation:bounce 1s infinite alternate;}
+  @keyframes bounce{from{transform:translateY(0);} to{transform:translateY(-12px);}}
+  
+  .result-title{font-size:28px; font-weight:900; color:#8E24AA; margin:0 0 6px;}
+  .result-subtitle{font-size:15px; color:#666; font-weight:700; margin-bottom:16px;}
+  .score-badge-large{
+    background:#FFF8E1;
+    border:3px solid #FFCA28;
+    color:#F57F17;
+    font-size:22px;
+    font-weight:900;
+    padding:10px 28px;
+    border-radius:30px;
+    margin-bottom:24px;
+    box-shadow:0 4px 12px rgba(255, 202, 40, 0.3);
+  }
+  .result-btn-group{display:flex; gap:12px; width:100%;}
+  .result-btn{
+    flex:1;
+    padding:15px;
+    border:none;
+    border-radius:18px;
+    font-size:16px;
+    font-weight:800;
+    cursor:pointer;
+  }
+  .btn-retry{background:#4CAF50; color:#FFF; box-shadow:0 5px 0 #2E7D32;}
+  .btn-retry:active{transform:translateY(2px); box-shadow:0 2px 0 #2E7D32;}
+  .btn-menu{background:#E0E0E0; color:#333; box-shadow:0 5px 0 #BDBDBD;}
+  .btn-menu:active{transform:translateY(2px); box-shadow:0 2px 0 #BDBDBD;}
+
+  .confetti-piece{
+    position:fixed; top:-20px; font-size:22px;
+    animation:fall linear forwards; pointer-events:none; z-index:99;
+  }
+  @keyframes fall{ to{transform:translateY(110vh) rotate(360deg); opacity:0.2;} }
+</style>
+</head>
+<body>
+
+<div id="app">
+  <!-- BOLD & BIG BRAND HEADER -->
+  <div class="brand-header">
+    <h1 class="brand-title">ABHIRA INSIGHTS</h1>
+    <div class="brand-tagline">🎮 Khel-Khel Mein Shiksha 📚</div>
+  </div>
+
+  <!-- HOME SCREEN - SUBJECT SELECTOR -->
+  <div class="screen active" id="homeScreen">
+    <div class="section-title">Apna Pasandida Vishay (Subject) Chunein:</div>
+    <div class="subject-grid">
+      
+      <div class="subject-card sub-english" onclick="startSubject('english')">
+        <div class="icon">🔤</div>
+        <h3>English</h3>
+        <p>Alphabets & Words</p>
+      </div>
+
+      <div class="subject-card sub-hindi" onclick="startSubject('hindi')">
+        <div class="icon">🇮🇳</div>
+        <h3>हिन्दी (Hindi)</h3>
+        <p>वर्णमाला और शब्द</p>
+      </div>
+
+      <div class="subject-card sub-maths" onclick="startSubject('maths')">
+        <div class="icon">🔢</div>
+        <h3>Maths</h3>
+        <p>Numbers & Shapes</p>
+      </div>
+
+      <div class="subject-card sub-science" onclick="startSubject('science')">
+        <div class="icon">🔬</div>
+        <h3>Science</h3>
+        <p>Nature & Animals</p>
+      </div>
+
+      <div class="subject-card sub-arts" style="grid-column: span 2;" onclick="startSubject('arts')">
+        <div class="icon">🎨</div>
+        <h3>Arts & Crafts</h3>
+        <p>Colors, Music & Drawing</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- QUIZ SCREEN -->
+  <div class="screen" id="quizScreen">
+    <div class="game-top-bar">
+      <button class="btn-back" onclick="goHome()">←</button>
+      <div class="badge-container">
+        <div class="info-pill" id="subjectBadge">English</div>
+        <div class="info-pill" style="background:#E8F5E9; border-color:#81C784; color:#2E7D32;">
+          ⭐ <span id="scoreText">0</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="q-box">
+      <div class="q-emoji" id="qEmoji">🍎</div>
+      <div class="q-title" id="qText">Question Text</div>
+    </div>
+
+    <div class="options-grid" id="optionsGrid"></div>
+    <div class="feedback-text" id="feedbackText"></div>
+    <button class="btn-next" id="btnNext" onclick="nextQuestion()">Aage Badho →</button>
+  </div>
+
+  <!-- RESULT SCREEN -->
+  <div class="screen" id="resultScreen">
+    <div class="result-card">
+      <div class="result-icon" id="resIcon">🏆</div>
+      <h2 class="result-title" id="resTitle">Shabaash!</h2>
+      <div class="result-subtitle" id="resSub">Aapne Bahut Achha Khela!</div>
+      <div class="score-badge-large" id="resScore">Score: 8 / 10</div>
+      <div class="result-btn-group">
+        <button class="result-btn btn-menu" onclick="goHome()">🏠 Main Menu</button>
+        <button class="result-btn btn-retry" onclick="retrySubject()">🔁 Phir Se Khelo</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const QUESTION_BANKS = {
+  english: [
+    {emoji:"🍎", q:"Which fruit starts with letter 'A'?", opts:["Banana","Apple","Grapes","Mango"], a:1},
+    {emoji:"🐶", q:"What sound does a Dog make?", opts:["Meow","Bark / Bhow","Moo","Quack"], a:1},
+    {emoji:"☀️", q:"Opposite word of 'DAY' is?", opts:["Sun","Light","Night","Morning"], a:2},
+    {emoji:"🐘", q:"Fill in the blank: E_EPHANT", opts:["L","M","K","P"], a:0},
+    {emoji:"🐱", q:"Plural of 'Cat' is?", opts:["Catty","Cats","Kitten","Cates"], a:1},
+    {emoji:"🌈", q:"How many letters are in 'SUN'?", opts:["2","3","4","5"], a:1},
+    {emoji:"🏫", q:"Where do children go to study?", opts:["Park","Hospital","School","Market"], a:2},
+    {emoji:"🚗", q:"What is the color of Milk?", opts:["Red","White","Blue","Green"], a:1}
+  ],
+  hindi: [
+    {emoji:"🍎", q:"'सेब' का अंग्रेजी नाम (English name) क्या है?", opts:["Mango","Banana","Apple","Orange"], a:2},
+    {emoji:"🥭", q:"फलों का राजा किसे कहते हैं?", opts:["केला","अमरूद","आम","अंगूर"], a:2},
+    {emoji:" स्वर ", q:"हिन्दी वर्णमाला का पहला अक्षर कौन सा है?", opts:["आ","अ","इ","क"], a:1},
+    {emoji:"🦚", q:"भारत का राष्ट्रीय पक्षी (National Bird) कौन सा है?", opts:["तोता","मोर","कबूतर","चिड़िया"], a:1},
+    {emoji:"🌺", q:"'कमल' का फूल कहाँ खिलता है?", opts:["हवा में","पानी / कीचड़ में","पेड़ पर","आग में"], a:1},
+    {emoji:"☀️", q:"दिन में आसमान में क्या निकलता है?", opts:["चाँद","सूरज","तारे","बादल"], a:1},
+    {emoji:"👨‍🏫", q:"पढ़ाने वाले को क्या कहते हैं?", opts:["डॉक्टर","शिक्षक / अध्यापक","किसान","चालक"], a:1},
+    {emoji:"🥛", q:"गाय हमें क्या देती है?", opts:["दूध","फल","सब्जी","कपड़े"], a:0}
+  ],
+  maths: [
+    {emoji:"🔢", q:"5 + 3 कितना होता है?", opts:["7","8","9","6"], a:1},
+    {emoji:"🔻", q:"त्रिभुज (Triangle) के कितने कोने होते हैं?", opts:["3","4","5","2"], a:0},
+    {emoji:"➖", q:"10 - 4 कितना होता है?", opts:["5","6","7","4"], a:1},
+    {emoji:"⚽", q:"गेंद (Ball) का आकार (Shape) कैसा होता है?", opts:["चौकोर (Square)","गोल (Circle)","त्रिकोण (Triangle)","लंबा"], a:1},
+    {emoji:"🖐️", q:"एक हाथ में कितनी उंगलियां होती हैं?", opts:["4","6","5","10"], a:2},
+    {emoji:"✖️", q:"2 × 4 कितना होता है?", opts:["6","8","10","12"], a:1},
+    {emoji:"📅", q:"एक सप्ताह (Week) में कितने दिन होते हैं?", opts:["5","6","7","8"], a:2},
+    {emoji:"⏰", q:"9 के ठीक बाद कौन सी संख्या आती है?", opts:["8","10","11","12"], a:1}
+  ],
+  science: [
+    {emoji:"🌳", q:"पौधों के पत्ते (Leaves) किस रंग के होते हैं?", opts:["लाल","हरा","नीला","पीला"], a:1},
+    {emoji:"🐟", q:"मछली सांस लेने के लिए कहाँ रहती है?", opts:["जमीन पर","पानी में","हवा में","पेड़ पर"], a:1},
+    {emoji:"🫀", q:"हमारा दिल (Heart) शरीर में क्या करता है?", opts:["खाना पचाता है","खून पंप करता है","सांस लेता है","सोता है"], a:1},
+    {emoji:"🌍", q:"हम किस ग्रह (Planet) पर रहते हैं?", opts:["मंगल (Mars)","पृथ्वी (Earth)","बुध (Mercury)","शुक्र"], a:1},
+    {emoji:"💧", q:"पानी का स्वाद कैसा होता है?", opts:["मीठा","नमकीन","स्वादहीन (No Taste)","खट्टा"], a:2},
+    {emoji:"🐝", q:"मधुमक्खी (Honeybee) हमें क्या देती है?", opts:["दूध","शहद (Honey)","फल","सब्जी"], a:1},
+    {emoji:"🦮", q:"वफादार जानवर किसे माना जाता है?", opts:["बिल्ली","कुत्ता","चूहा","शेर"], a:1},
+    {emoji:"🧊", q:"पानी को बहुत ठंडा करने पर क्या बनता है?", opts:["भाप","बर्फ (Ice)","गैस","तेल"], a:1}
+  ],
+  arts: [
+    {emoji:"🎨", q:"लाल (Red) और पीला (Yellow) मिलाने पर कौन सा रंग बनता है?", opts:["हरा","नारंगी (Orange)","नीला","बैंगनी"], a:1},
+    {emoji:"✏️", q:"चित्रकारी (Drawing) करने के लिए किसका उपयोग होता है?", opts:["पेंसिल/रंग","चम्मच","जूता","कैटल"], a:0},
+    {emoji:"🎵", q:"संगीत में गायन के लिए किसका प्रयोग होता है?", opts:["आंख का","आवाज / गले का","पैर का","हाथ का"], a:1},
+    {emoji:"🌈", q:"इंद्रधनुष (Rainbow) में कितने रंग होते हैं?", opts:["5","6","7","8"], a:2},
+    {emoji:"🥁", q:"ढोलक / ड्रम बजाने से क्या उत्पन्न होता है?", opts:["रोशनी","ध्वनि / संगीत","हवा","पानी"], a:1},
+    {emoji:"🌻", q:"सूरजमुखी (Sunflower) का रंग कैसा होता है?", opts:["नीला","पीला (Yellow)","लाल","काला"], a:1},
+    {emoji:"✂️", q:"कागज काटने के लिए किस कला उपकरण का उपयोग होता है?", opts:["कैंची (Scissors)","ब्रश","पेन","स्केल"], a:0},
+    {emoji:"💃", q:"ताल पर शरीर को हिलाने की कला को क्या कहते हैं?", opts:["गाना","नृत्य (Dance)","चित्रकला","पढ़ाई"], a:1}
+  ]
+};
+
+const SUBJECT_NAMES = {
+  english: "English",
+  hindi: "हिन्दी",
+  maths: "Maths",
+  science: "Science",
+  arts: "Arts & Crafts"
+};
+
+let currentSubject = null;
+let questions = [];
+let qIndex = 0;
+let score = 0;
+let answered = false;
+
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function goHome(){ showScreen('homeScreen'); }
+
+function startSubject(sub){
+  currentSubject = sub;
+  questions = [...QUESTION_BANKS[sub]];
+  qIndex = 0;
+  score = 0;
+  
+  document.getElementById('subjectBadge').textContent = SUBJECT_NAMES[sub];
+  document.getElementById('scoreText').textContent = score;
+  showScreen('quizScreen');
+  renderQuestion();
+}
+
+function retrySubject(){
+  if(currentSubject) startSubject(currentSubject);
+}
+
+function renderQuestion(){
+  answered = false;
+  let q = questions[qIndex];
+  
+  document.getElementById('qEmoji').textContent = q.emoji;
+  document.getElementById('qText').textContent = q.q;
+  document.getElementById('feedbackText').textContent = '';
+  document.getElementById('feedbackText').className = 'feedback-text';
+  document.getElementById('btnNext').style.display = 'none';
+
+  let grid = document.getElementById('optionsGrid');
+  grid.innerHTML = '';
+
+  q.opts.forEach((opt, idx) => {
+    let btn = document.createElement('button');
+    btn.className = 'opt-btn';
+    btn.textContent = opt;
+    btn.onclick = () => selectOption(idx, btn);
+    grid.appendChild(btn);
+  });
+}
+
+function selectOption(idx, btnEl){
+  if(answered) return;
+  answered = true;
+
+  let q = questions[qIndex];
+  let allBtns = document.querySelectorAll('.opt-btn');
+  allBtns.forEach(b => b.classList.add('disabled'));
+
+  let fb = document.getElementById('feedbackText');
+
+  if(idx === q.a){
+    score++;
+    btnEl.classList.add('correct');
+    fb.textContent = "🎉 Bahut Badhiya! Sahi Jawab!";
+    fb.className = "feedback-text good";
+    launchConfetti();
+  } else {
+    btnEl.classList.add('wrong');
+    allBtns[q.a].classList.remove('disabled');
+    allBtns[q.a].classList.add('correct');
+    fb.textContent = "💡 Koi baat nahi! Agli baar sahi hoga!";
+    fb.className = "feedback-text bad";
+  }
+
+  document.getElementById('scoreText').textContent = score;
+  let nextBtn = document.getElementById('btnNext');
+  nextBtn.style.display = 'block';
+  nextBtn.textContent = (qIndex === questions.length - 1) ? "Result Dekho →" : "Aage Badho →";
+}
+
+function nextQuestion(){
+  qIndex++;
+  if(qIndex >= questions.length){
+    showResult();
+  } else {
+    renderQuestion();
+  }
+}
+
+function showResult(){
+  showScreen('resultScreen');
+  let total = questions.length;
+  document.getElementById('resScore').textContent = `Score: ${score} / ${total}`;
+
+  if(score >= total * 0.8){
+    document.getElementById('resIcon').textContent = "🏆";
+    document.getElementById('resTitle').textContent = "Shabaash! Super Star!";
+    document.getElementById('resSub').textContent = "Aapne kamaal ka pradarshan kiya!";
+    launchConfetti(35);
+  } else if(score >= total * 0.5){
+    document.getElementById('resIcon').textContent = "🎉";
+    document.getElementById('resTitle').textContent = "Bahut Achha!";
+    document.getElementById('resSub').textContent = "Thoda aur abhyas karke aur behtar banein!";
+  } else {
+    document.getElementById('resIcon').textContent = "🌱";
+    document.getElementById('resTitle').textContent = "Shuruaat Achhi Hai!";
+    document.getElementById('resSub').textContent = "Phir se koshish karein aur sikhein!";
+  }
+}
+
+function launchConfetti(count = 15){
+  const emojis = ['🎉','⭐','✨','🎊','🌟','🎈'];
+  for(let i=0; i<count; i++){
+    let el = document.createElement('div');
+    el.className = 'confetti-piece';
+    el.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+    el.style.left = Math.random()*100 + 'vw';
+    el.style.animationDuration = (2 + Math.random()*1.5) + 's';
+    document.body.appendChild(el);
+    setTimeout(()=>el.remove(), 3500);
+  }
+}
+</script>
+</body>
+</html>
