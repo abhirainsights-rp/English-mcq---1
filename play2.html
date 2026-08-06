@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+<title>Abhira Insights — Educational Kids Game</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --brand-purple:#8E24AA;
+    --brand-pink:#E91E63;
+    --card-bg:#FFFFFF;
+    --text-color:#2C3E50;
+    --success:#2ECC71;
+    --error:#E74C3C;
+    --accent-yellow:#F1C40F;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;padding:0;height:100%;}
+  body{
+    font-family:'Baloo 2','Segoe UI',system-ui,sans-serif;
+    background: linear-gradient(135deg, #A8E6CF 0%, #DCEDC1 30%, #FFD3B6 70%, #FFAAA5 100%);
+    color:var(--text-color);
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:12px;
+  }
+  #app{
+    width:100%;
+    max-width:520px;
+    background:rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(10px);
+    border-radius:32px;
+    box-shadow:0 16px 40px rgba(0,0,0,0.15);
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    border:6px solid #FFFFFF;
+    min-height:650px;
+    position:relative;
+  }
+
+  /* BIG BOLD BRAND HEADER */
+  .brand-header{
+    background: linear-gradient(135deg, #7B1FA2 0%, #E91E63 100%);
+    color:#FFFFFF;
+    padding:24px 16px 20px;
+    text-align:center;
+    border-bottom-left-radius:28px;
+    border-bottom-right-radius:28px;
+    box-shadow:0 8px 20px rgba(123, 31, 162, 0.3);
+    position:relative;
+  }
+  .brand-title{
+    font-size:38px;
+    font-weight:900;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    margin:0;
+    line-height:1.05;
+    text-shadow: 3px 4px 0px rgba(0,0,0,0.25);
+    color: #FFF;
+  }
+  .brand-tagline{
+    font-size:16px;
+    font-weight:700;
+    margin-top:6px;
+    color:#FFE082;
+    text-shadow:1px 1px 2px rgba(0,0,0,0.2);
+  }
+
+  /* SCREENS */
+  .screen{display:none; padding:18px; flex:1; flex-direction:column;}
+  .screen.active{display:flex; animation:slide-up .35s cubic-bezier(0.175, 0.885, 0.32, 1.275);}
+  @keyframes slide-up{from{opacity:0; transform:translateY(16px);} to{opacity:1; transform:translateY(0);}}
+
+  /* CATEGORY GRID MENU */
+  .section-title{
+    font-size:19px;
+    font-weight:800;
+    text-align:center;
+    margin:10px 0 16px;
+    color:#4A148C;
+  }
+  .subject-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    flex:1;
+  }
+  .subject-card{
+    background:#FFFFFF;
+    border-radius:22px;
+    padding:16px 12px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    cursor:pointer;
+    box-shadow:0 8px 0 rgba(0,0,0,0.06), 0 2px 10px rgba(0,0,0,0.04);
+    border:3.5px solid transparent;
+    transition:all 0.15s ease;
+  }
+  .subject-card:active{transform:scale(0.95) translateY(4px); box-shadow:0 2px 0 rgba(0,0,0,0.06);}
+  .subject-card .icon{font-size:42px; margin-bottom:6px; filter:drop-shadow(0 4px 6px rgba(0,0,0,0.1));}
+  .subject-card h3{margin:0; font-size:17px; font-weight:800;}
+  .subject-card p{margin:4px 0 0; font-size:12px; color:#666; font-weight:700;}
+
+  /* CATEGORY THEMES */
+  .cat-wild{border-color:#FF8A65; background:#FBE9E7;}
+  .cat-wild h3{color:#D84315;}
+  .cat-fruits{border-color:#AED581; background:#F1F8E9;}
+  .cat-fruits h3{color:#33691E;}
+  .cat-veg{border-color:#4FC3F7; background:#E1F5FE;}
+  .cat-veg h3{color:#0277BD;}
+  .cat-pets{border-color:#BA68C8; background:#F3E5F5;}
+  .cat-pets h3{color:#6A1B9A;}
+  .cat-vehicles{border-color:#FFD54F; background:#FFFDE7;}
+  .cat-vehicles h3{color:#F57F17;}
+
+  /* GAMEPLAY INTERFACE */
+  .game-top-bar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:14px;
+  }
+  .btn-back{
+    background:#FFFFFF;
+    border:2.5px solid #DDD;
+    width:42px; height:42px;
+    border-radius:14px;
+    font-size:20px;
+    font-weight:bold;
+    cursor:pointer;
+    box-shadow:0 4px 0 #CCC;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .btn-back:active{transform:translateY(2px); box-shadow:0 2px 0 #CCC;}
+  
+  .badge-container{
+    display:flex;
+    gap:8px;
+  }
+  .info-pill{
+    background:#FFF8E1;
+    border:2.5px solid #FFD54F;
+    padding:6px 14px;
+    border-radius:20px;
+    font-weight:800;
+    font-size:14px;
+    color:#F57F17;
+  }
+
+  .q-box{
+    background:#FFFFFF;
+    border-radius:24px;
+    padding:20px 16px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.07);
+    text-align:center;
+    border:3px solid #F0F0F0;
+    margin-bottom:14px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+  }
+  .q-emoji{font-size:64px; margin-bottom:8px; filter:drop-shadow(0 6px 8px rgba(0,0,0,0.12));}
+  .q-title{font-size:18px; font-weight:800; color:#2C3E50; line-height:1.3;}
+
+  .options-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    width:100%;
+  }
+  .opt-btn{
+    background:#FFFFFF;
+    border:3px solid #E0E0E0;
+    border-radius:16px;
+    padding:12px 8px;
+    font-size:16px;
+    font-weight:800;
+    color:#333;
+    cursor:pointer;
+    box-shadow:0 4px 0 rgba(0,0,0,0.06);
+    transition:transform 0.1s ease, background-color 0.2s, border-color 0.2s;
+    min-height:55px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+  }
+  .opt-btn:active{transform:scale(0.96);}
+  .opt-btn.correct{
+    background:#E8F5E9 !important;
+    border-color:#4CAF50 !important;
+    color:#2E7D32 !important;
+  }
+  .opt-btn.wrong{
+    background:#FFEBEE !important;
+    border-color:#EF5350 !important;
+    color:#C62828 !important;
+  }
+  .opt-btn.disabled{pointer-events:none; opacity:0.7;}
+
+  .feedback-text{
+    text-align:center;
+    font-weight:800;
+    font-size:16px;
+    min-height:24px;
+    margin-top:10px;
+  }
+  .feedback-text.good{color:#2E7D32;}
+  .feedback-text.bad{color:#C62828;}
+
+  .btn-next{
+    width:100%;
+    margin-top:10px;
+    padding:14px;
+    border:none;
+    border-radius:18px;
+    background:linear-gradient(135deg, #8E24AA, #D81B60);
+    color:#FFF;
+    font-size:17px;
+    font-weight:800;
+    box-shadow:0 5px 0 #5E1274;
+    cursor:pointer;
+    display:none;
+  }
+  .btn-next:active{transform:translateY(3px); box-shadow:0 2px 0 #5E1274;}
+
+  /* RESULT SCREEN */
+  .result-card{
+    background:#FFFFFF;
+    border-radius:28px;
+    padding:30px 20px;
+    text-align:center;
+    box-shadow:0 12px 30px rgba(0,0,0,0.08);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    flex:1;
+  }
+  .result-icon{font-size:72px; margin-bottom:12px; animation:bounce 1s infinite alternate;}
+  @keyframes bounce{from{transform:translateY(0);} to{transform:translateY(-12px);}}
+  
+  .result-title{font-size:28px; font-weight:900; color:#8E24AA; margin:0 0 6px;}
+  .result-subtitle{font-size:15px; color:#666; font-weight:700; margin-bottom:16px;}
+  .score-badge-large{
+    background:#FFF8E1;
+    border:3px solid #FFCA28;
+    color:#F57F17;
+    font-size:22px;
+    font-weight:900;
+    padding:10px 28px;
+    border-radius:30px;
+    margin-bottom:24px;
+    box-shadow:0 4px 12px rgba(255, 202, 40, 0.3);
+  }
+  .result-btn-group{display:flex; gap:12px; width:100%;}
+  .result-btn{
+    flex:1;
+    padding:15px;
+    border:none;
+    border-radius:18px;
+    font-size:16px;
+    font-weight:800;
+    cursor:pointer;
+  }
+  .btn-retry{background:#4CAF50; color:#FFF; box-shadow:0 5px 0 #2E7D32;}
+  .btn-retry:active{transform:translateY(2px); box-shadow:0 2px 0 #2E7D32;}
+  .btn-menu{background:#E0E0E0; color:#333; box-shadow:0 5px 0 #BDBDBD;}
+  .btn-menu:active{transform:translateY(2px); box-shadow:0 2px 0 #BDBDBD;}
+
+  .confetti-piece{
+    position:fixed; top:-20px; font-size:22px;
+    animation:fall linear forwards; pointer-events:none; z-index:99;
+  }
+  @keyframes fall{ to{transform:translateY(110vh) rotate(360deg); opacity:0.2;} }
+</style>
+</head>
+<body>
+
+<div id="app">
+  <!-- BOLD & BIG BRAND HEADER -->
+  <div class="brand-header">
+    <h1 class="brand-title">ABHIRA INSIGHTS</h1>
+    <div class="brand-tagline">🎮 बच्चों की मजेदार क्विज़ सीखें और खेलें 📚</div>
+  </div>
+
+  <!-- HOME SCREEN - CATEGORY SELECTOR -->
+  <div class="screen active" id="homeScreen">
+    <div class="section-title">अपनी पसंद का भाग चुनें (Select Quiz Part):</div>
+    <div class="subject-grid">
+      
+      <div class="subject-card cat-wild" onclick="startCategory('wild')">
+        <div class="icon">🦁</div>
+        <h3>जंगली जानवर</h3>
+        <p>Wild Animals (10)</p>
+      </div>
+
+      <div class="subject-card cat-fruits" onclick="startCategory('fruits')">
+        <div class="icon">🍎</div>
+        <h3>फल</h3>
+        <p>Fruits Names (10)</p>
+      </div>
+
+      <div class="subject-card cat-veg" onclick="startCategory('veg')">
+        <div class="icon">🍅</div>
+        <h3>सब्जियाँ</h3>
+        <p>Vegetables (10)</p>
+      </div>
+
+      <div class="subject-card cat-pets" onclick="startCategory('pets')">
+        <div class="icon">🐶</div>
+        <h3>पालतू जानवर</h3>
+        <p>Pet Animals (10)</p>
+      </div>
+
+      <div class="subject-card cat-vehicles" style="grid-column: span 2;" onclick="startCategory('vehicles')">
+        <div class="icon">🚗</div>
+        <h3>वाहन</h3>
+        <p>Vehicles Names (10)</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- QUIZ SCREEN -->
+  <div class="screen" id="quizScreen">
+    <div class="game-top-bar">
+      <button class="btn-back" onclick="goHome()">←</button>
+      <div class="badge-container">
+        <div class="info-pill" id="categoryBadge">जंगली जानवर</div>
+        <div class="info-pill" style="background:#E8F5E9; border-color:#81C784; color:#2E7D32;">
+          ⭐ <span id="scoreText">0</span>/10
+        </div>
+      </div>
+    </div>
+
+    <div class="q-box">
+      <div class="q-emoji" id="qEmoji">🦁</div>
+      <div class="q-title" id="qText">पहचानिए यह कौन सा जानवर है? / Identify this animal:</div>
+    </div>
+
+    <div class="options-grid" id="optionsGrid"></div>
+    <div class="feedback-text" id="feedbackText"></div>
+    <button class="btn-next" id="btnNext" onclick="nextQuestion()">आगे बढ़ें →</button>
+  </div>
+
+  <!-- RESULT SCREEN -->
+  <div class="screen" id="resultScreen">
+    <div class="result-card">
+      <div class="result-icon" id="resIcon">🏆</div>
+      <h2 class="result-title" id="resTitle">शाबाश!</h2>
+      <div class="result-subtitle" id="resSub">आपने बहुत अच्छा खेला!</div>
+      <div class="score-badge-large" id="resScore">स्कोर: 10 / 10</div>
+      <div class="result-btn-group">
+        <button class="result-btn btn-menu" onclick="goHome()">🏠 मुख्य मेनू</button>
+        <button class="result-btn btn-retry" onclick="retryCategory()">🔁 फिर से खेलें</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const CATEGORY_BANKS = {
+  wild: [
+    {emoji:"🦁", q:"पहचानिए यह कौन सा जानवर है? / Identify this animal:", opts:["हाथी (Elephant)", "शेर (Lion)", "ज़ेबरा (Zebra)", "भालू (Bear)"], a:1},
+    {emoji:"🐅", q:"पहचानिए यह कौन सा जानवर है? / Identify this animal:", opts:["बाघ (Tiger)", "चीता (Cheetah)", "लोमड़ी (Fox)", "भेड़िया (Wolf)"], a:0},
+    {emoji:"🐘", q:"पहचानिए यह कौन सा जानवर है? / Identify this animal:", opts:["जिराफ (Giraffe)", "गैंडा (Rhinoceros)", "हाथी (Elephant)", "दरियाई घोड़ा (Hippopotamus)"], a:2},
+    {emoji:"🦓", q:"पहचानिए यह कौन सा जानवर है? / Identify this animal:", opts:["घोड़ा (Horse)", "ज़ेबरा (Zebra)", "गधा (Donkey)", "बारहसिंगा (Deer)"], a:1},
+    {emoji:"🦒", q:"पहचानिए यह कौन सा जानवर है? / Identify this animal:", opts:["ऊंट (Camel)", "कंगारू (Kangaroo)", "जिराफ (Giraffe)", "तेंदुआ (Leopard)"], a:2},
+    {emoji:"🐒", q:"पहचानिए यह कौन सा जानवर है? / Identify this animal:", opts:["लंगूर (Baboon)", "चिंपैंजी (Chimpanzee)", "बंदर (Monkey)", "पांडा (Panda)"], a:2},
+    {emoji:"🐻", q:"पहचानिए यह कौन सा जानवर है? / Identify this animal:", opts:["भालू (Bear)", "सुअर (Pig)", "शेर (Lion)", "बाघ (Tiger)"], a:0},
+    {emoji:"🦊", q:"पहचानिए यह कौन सा जानवर है? / Identify this animal:", opts:["कुत्ता (Dog)", "लोमड़ी (Fox)", "भेड़िया (Wolf)", "सियार (Jackal)"], a:1},
+    {emoji:"🐆", q:"पहचानिए यह कौन सा जानवर है? / Identify this animal:", opts:["चीता (Cheetah)", "तेंदुआ (Leopard)", "बाघ (Tiger)", "बिल्ली (Cat)"], a:0},
+    {emoji:"🦘", q:"पहचानिए यह कौन सा जानवर है? / Identify this animal:", opts:["खरगोश (Rabbit)", "कंगारू (Kangaroo)", "गिलहरी (Squirrel)", "चूहा (Rat)"], a:1}
+  ],
+  fruits: [
+    {emoji:"🍎", q:"पहचानिए यह कौन सा फल है? / Identify this fruit:", opts:["सेब (Apple)", "अनार (Pomegranate)", "अमरूद (Guava)", "टमाटर (Tomato)"], a:0},
+    {emoji:"🥭", q:"पहचानिए यह कौन सा फल है? / Identify this fruit:", opts:["केला (Banana)", "पपीता (Papaya)", "आम (Mango)", "खरबूजा (Melon)"], a:2},
+    {emoji:"🍌", q:"पहचानिए यह कौन सा फल है? / Identify this fruit:", opts:["केला (Banana)", "खीरा (Cucumber)", "गाजर (Carrot)", "मूली (Radish)"], a:0},
+    {emoji:"🍇", q:"पहचानिए यह कौन सा फल है? / Identify this fruit:", opts:["लीची (Litchi)", "अंगूर (Grapes)", "चेरी (Cherry)", "जामुन (Blackberry)"], a:1},
+    {emoji:"🍊", q:"पहचानिए यह कौन सा फल है? / Identify this fruit:", opts:["नींबू (Lemon)", "संतरा (Orange)", "मौसमी (Sweet Lime)", "अनानास (Pineapple)"], a:1},
+    {emoji:" papaya ", emojiIcon:"🍈", q:"पहचानिए यह कौन सा फल है? / Identify this fruit:", opts:["तरबूज (Watermelon)", "खरबूजा (Muskmelon)", "पपीता (Papaya)", "कटहल (Jackfruit)"], a:2},
+    {emoji:"🍉", q:"पहचानिए यह कौन सा फल है? / Identify this fruit:", opts:["तरबूज (Watermelon)", "कद्दू (Pumpkin)", "पपीता (Papaya)", "अनानास (Pineapple)"], a:0},
+    {emoji:"🍎", emojiOverride:"🍎", q:"पहचानिए यह कौन सा फल है? / Identify this fruit:", opts:["सेब (Apple)", "अनार (Pomegranate)", "अमरूद (Guava)", "अंजीर (Fig)"], a:1},
+    {emoji:"🍍", q:"पहचानिए यह कौन सा फल है? / Identify this fruit:", opts:["अनानास (Pineapple)", "शरीफा (Custard Apple)", "नाशपाती (Pear)", "चीकू (Sapota)"], a:0},
+    {emoji:"🍐", q:"पहचानिए यह कौन सा फल है? / Identify this fruit:", opts:["नाशपाती (Pear)", "अमरूद (Guava)", "सेब (Apple)", "आड़ू (Peach)"], a:1}
+  ],
+  veg: [
+    {emoji:"🥔", q:"पहचानिए यह कौन सी सब्जी है? / Identify this vegetable:", opts:["आलू (Potato)", "शकरकंद (Sweet Potato)", "प्याज (Onion)", "अदरक (Ginger)"], a:0},
+    {emoji:"🍅", q:"पहचानिए यह कौन सी सब्जी है? / Identify this vegetable:", opts:["बैंगन (Brinjal)", "टमाटर (Tomato)", "शिमला मिर्च (Capsicum)", "मिर्च (Chili)"], a:1},
+    {emoji:"🧅", q:"पहचानिए यह कौन सी सब्जी है? / Identify this vegetable:", opts:["लहसुन (Garlic)", "प्याज (Onion)", "मूली (Radish)", "सलजम (Turnip)"], a:1},
+    {emoji:"🥦", emojiOverride:"🥦", q:"पहचानिए यह कौन सी सब्जी है? / Identify this vegetable:", opts:["पत्ता गोभी (Cabbage)", "गोभी (Cauliflower)", "ब्रोकोली (Broccoli)", "पालक (Spinach)"], a:1},
+    {emoji:"🥕", q:"पहचानिए यह कौन सी सब्जी है? / Identify this vegetable:", opts:["मूली (Radish)", "गाजर (Carrot)", "चुकंदर (Beetroot)", "खीरा (Cucumber)"], a:1},
+    {emoji:"🟢", q:"पहचानिए यह कौन सी सब्जी है? / Identify this vegetable:", opts:["बीन्स (Beans)", "मटर (Peas)", "सोयाबीन (Soybean)", "मक्का (Corn)"], a:1},
+    {emoji:"🥬", q:"पहचानिए यह कौन सी सब्जी है? / Identify this vegetable:", opts:["मेथी (Fenugreek)", "धनिया (Coriander)", "पालक (Spinach)", "बथुआ (Bathua)"], a:2},
+    {emoji:"🍆", q:"पहचानिए यह कौन सी सब्जी है? / Identify this vegetable:", opts:["लौकी (Bottle Gourd)", "तरोई (Ridge Gourd)", "बैंगन (Brinjal)", "भिंडी (Ladyfinger)"], a:2},
+    {emoji:"🌶️", emojiOverride:"🥒", q:"पहचानिए यह कौन सी सब्जी है? / Identify this vegetable:", opts:["भिंडी (Ladyfinger)", "करेला (Bitter Gourd)", "कद्दू (Pumpkin)", "खीरा (Cucumber)"], a:0},
+    {emoji:"🥒", q:"पहचानिए यह कौन सी सब्जी है? / Identify this vegetable:", opts:["ककड़ी (Cucumber)", "खीरा (Cucumber)", "करेला (Bitter Gourd)", "तुरई (Ridge Gourd)"], a:1}
+  ],
+  pets: [
+    {emoji:"🐶", q:"पहचानिए यह कौन सा पालतू जानवर है? / Identify this pet animal:", opts:["बिल्ली (Cat)", "कुत्ता (Dog)", "खरगोश (Rabbit)", "चूहा (Mouse)"], a:1},
+    {emoji:"🐱", q:"पहचानिए यह कौन सा पालतू जानवर है? / Identify this pet animal:", opts:["कुत्ता (Dog)", "बिल्ली (Cat)", "लोमड़ी (Fox)", "गिलहरी (Squirrel)"], a:1},
+    {emoji:"🐄", q:"पहचानिए यह कौन सा पालतू जानवर है? / Identify this pet animal:", opts:["भैंस (Buffalo)", "बैल (Ox)", "गाय (Cow)", "बकरी (Goat)"], a:2},
+    {emoji:"🦜", q:"पहचानिए यह कौन सा पालतू जानवर है? / Identify this pet animal:", opts:["कबूतर (Pigeon)", "तोता (Parrot)", "मैना (Myna)", "मोर (Peacock)"], a:1},
+    {emoji:"🐇", q:"पहचानिए यह कौन सा पालतू जानवर है? / Identify this pet animal:", opts:["कछुआ (Tortoise)", "खरगोश (Rabbit)", "गिलहरी (Squirrel)", "चूहा (Rat)"], a:1},
+    {emoji:"🐎", q:"पहचानिए यह कौन सा पालतू जानवर है? / Identify this pet animal:", opts:["गधा (Donkey)", "खच्चर (Mule)", "घोड़ा (Horse)", "ऊंट (Camel)"], a:2},
+    {emoji:"🐐", q:"पहचानिए यह कौन सा पालतू जानवर है? / Identify this pet animal:", opts:["भेड़ (Sheep)", "बकरी (Goat)", "हिरण (Deer)", "सुअर (Pig)"], a:1},
+    {emoji:"🐑", q:"पहचानिए यह कौन सा पालतू जानवर है? / Identify this pet animal:", opts:["बकरी (Goat)", "भेड़ (Sheep)", "कुत्ता (Dog)", "याक (Yak)"], a:1},
+    {emoji:"🐃", q:"पहचानिए यह कौन सा पालतू जानवर है? / Identify this pet animal:", opts:["गाय (Cow)", "भैंस (Buffalo)", "हाथी (Elephant)", "गैंडा (Rhinoceros)"], a:1},
+    {emoji:"🐢", q:"पहचानिए यह कौन सा पालतू जानवर है? / Identify this pet animal:", opts:["कछुआ (Tortoise)", "मेंढक (Frog)", "मछली (Fish)", "केकड़ा (Crab)"], a:0}
+  ],
+  vehicles: [
+    {emoji:"🚗", q:"पहचानिए यह कौन सा वाहन है? / Identify this vehicle:", opts:["बस (Bus)", "कार (Car)", "ट्रक (Truck)", "जीप (Jeep)"], a:1},
+    {emoji:"🚌", q:"पहचानिए यह कौन सा वाहन है? / Identify this vehicle:", opts:["कार (Car)", "ट्रेन (Train)", "बस (Bus)", "वैन (Van)"], a:2},
+    {emoji:"🚆", q:"पहचानिए यह कौन सा वाहन है? / Identify this vehicle:", opts:["मेट्रो (Metro)", "रेलगाड़ी (Train)", "बस (Bus)", "हवाई जहाज (Aeroplane)"], a:1},
+    {emoji:"🚲", q:"पहचानिए यह कौन सा वाहन है? / Identify this vehicle:", opts:["मोटरसाइकिल (Motorcycle)", "स्कूटर (Scooter)", "साइकिल (Bicycle)", "रिक्शा (Rickshaw)"], a:2},
+    {emoji:"🏍️", q:"पहचानिए यह कौन सा वाहन है? / Identify this vehicle:", opts:["साइकिल (Bicycle)", "मोटरसाइकिल (Motorcycle)", "स्कूटर (Scooter)", "ऑटो (Auto Rickshaw)"], a:1},
+    {emoji:"✈️", q:"पहचानिए यह कौन सा वाहन है? / Identify this vehicle:", opts:["हेलीकॉप्टर (Helicopter)", "रॉकेट (Rocket)", "हवाई जहाज (Aeroplane)", "पैराशूट (Parachute)"], a:2},
+    {emoji:"🚁", q:"पहचानिए यह कौन सा वाहन है? / Identify this vehicle:", opts:["हवाई जहाज (Aeroplane)", "हेलीकॉप्टर (Helicopter)", "ड्रोन (Drone)", "ग्लाइडर (Glider)"], a:1},
+    {emoji:"🚢", q:"पहचानिए यह कौन सा वाहन है? / Identify this vehicle:", opts:["नाव (Boat)", "जहाज (Ship)", "पनडुब्बी (Submarine)", "स्टीमर (Steamer)"], a:1},
+    {emoji:"🚜", q:"पहचानिए यह कौन सा वाहन है? / Identify this vehicle:", opts:["ट्रक (Truck)", "ट्रैक्टर (Tractor)", "क्रेन (Crane)", "बुलडोजर (Bulldozer)"], a:1},
+    {emoji:"🛺", q:"पहचानिए यह कौन सा वाहन है? / Identify this vehicle:", opts:["साइकिल रिक्शा (Cycle Rickshaw)", "ऑटो रिक्शा (Auto Rickshaw)", "टैक्सी (Taxi)", "वैन (Van)"], a:1}
+  ]
+};
+
+const CATEGORY_NAMES = {
+  wild: "जंगली जानवर",
+  fruits: "फल",
+  veg: "सब्जियाँ",
+  pets: "पालतू जानवर",
+  vehicles: "वाहन"
+};
+
+let currentCategory = null;
+let questions = [];
+let qIndex = 0;
+let score = 0;
+let answered = false;
+
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function goHome(){ showScreen('homeScreen'); }
+
+function startCategory(cat){
+  currentCategory = cat;
+  questions = [...CATEGORY_BANKS[cat]];
+  qIndex = 0;
+  score = 0;
+  
+  document.getElementById('categoryBadge').textContent = CATEGORY_NAMES[cat];
+  document.getElementById('scoreText').textContent = score;
+  showScreen('quizScreen');
+  renderQuestion();
+}
+
+function retryCategory(){
+  if(currentCategory) startCategory(currentCategory);
+}
+
+function renderQuestion(){
+  answered = false;
+  let q = questions[qIndex];
+  
+  document.getElementById('qEmoji').textContent = q.emoji;
+  document.getElementById('qText').textContent = q.q;
+  document.getElementById('feedbackText').textContent = '';
+  document.getElementById('feedbackText').className = 'feedback-text';
+  document.getElementById('btnNext').style.display = 'none';
+
+  let grid = document.getElementById('optionsGrid');
+  grid.innerHTML = '';
+
+  q.opts.forEach((opt, idx) => {
+    let btn = document.createElement('button');
+    btn.className = 'opt-btn';
+    btn.textContent = opt;
+    btn.onclick = () => selectOption(idx, btn);
+    grid.appendChild(btn);
+  });
+}
+
+function selectOption(idx, btnEl){
+  if(answered) return;
+  answered = true;
+
+  let q = questions[qIndex];
+  let allBtns = document.querySelectorAll('.opt-btn');
+  allBtns.forEach(b => b.classList.add('disabled'));
+
+  let fb = document.getElementById('feedbackText');
+
+  if(idx === q.a){
+    score++;
+    btnEl.classList.add('correct');
+    fb.textContent = "🎉 बहुत बढ़िया! सही जवाब!";
+    fb.className = "feedback-text good";
+    launchConfetti();
+  } else {
+    btnEl.classList.add('wrong');
+    allBtns[q.a].classList.remove('disabled');
+    allBtns[q.a].classList.add('correct');
+    fb.textContent = "💡 कोई बात नहीं! अगली बार सही होगा!";
+    fb.className = "feedback-text bad";
+  }
+
+  document.getElementById('scoreText').textContent = score;
+  let nextBtn = document.getElementById('btnNext');
+  nextBtn.style.display = 'block';
+  nextBtn.textContent = (qIndex === questions.length - 1) ? "परिणाम देखें →" : "आगे बढ़ें →";
+}
+
+function nextQuestion(){
+  qIndex++;
+  if(qIndex >= questions.length){
+    showResult();
+  } else {
+    renderQuestion();
+  }
+}
+
+function showResult(){
+  showScreen('resultScreen');
+  let total = questions.length;
+  document.getElementById('resScore').textContent = `स्कोर: ${score} / ${total}`;
+
+  if(score >= total * 0.8){
+    document.getElementById('resIcon').textContent = "🏆";
+    document.getElementById('resTitle').textContent = "शाबाश! सुपर स्टार!";
+    document.getElementById('resSub').textContent = "आपने कमाल का प्रदर्शन किया!";
+    launchConfetti(35);
+  } else if(score >= total * 0.5){
+    document.getElementById('resIcon').textContent = "🎉";
+    document.getElementById('resTitle').textContent = "बहुत अच्छा!";
+    document.getElementById('resSub').textContent = "थोड़ा और अभ्यास करके और बेहतर बनें!";
+  } else {
+    document.getElementById('resIcon').textContent = "🌱";
+    document.getElementById('resTitle').textContent = "शुरुआत अच्छी है!";
+    document.getElementById('resSub').textContent = "फिर से कोशिश करें और सीखें!";
+  }
+}
+
+function launchConfetti(count = 15){
+  const emojis = ['🎉','⭐','✨','🎊','🌟','🎈'];
+  for(let i=0; i<count; i++){
+    let el = document.createElement('div');
+    el.className = 'confetti-piece';
+    el.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+    el.style.left = Math.random()*100 + 'vw';
+    el.style.animationDuration = (2 + Math.random()*1.5) + 's';
+    document.body.appendChild(el);
+    setTimeout(()=>el.remove(), 3500);
+  }
+}
+</script>
+</body>
+</html>
